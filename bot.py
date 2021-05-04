@@ -78,8 +78,8 @@ def convertembed(t):
 
 @bot.command()
 async def warn(ctx, *, arg):
-    healthguild = bot.get_guild(688206199992483851)
-    mod = healthguild.get_role(689280713153183795)
+    healthguild = bot.get_guild(config['SERVER_ID'])
+    mod = healthguild.get_role(config['MODE_ROLE_ID'])
     user,reason,member,memberID = aux.getvars(bot,ctx,arg,healthguild)
     if not(member):
         await ctx.channel.send("<@!" + str(memberID) + "> is not a member of HEALTHcord.")
@@ -100,8 +100,8 @@ async def warn(ctx, *, arg):
 
 @bot.command()
 async def ban(ctx, *, arg):
-    healthguild = bot.get_guild(688206199992483851)
-    mod = healthguild.get_role(689280713153183795)
+    healthguild = bot.get_guild(config['SERVER_ID'])
+    mod = healthguild.get_role(config['MODE_ROLE_ID'])
     user,reason,member,memberID = aux.getvars(bot,ctx,arg,healthguild)
     if not(member):
         await ctx.channel.send("<@!" + str(memberID) + "> is not a member of HEALTHcord.")
@@ -126,8 +126,8 @@ async def ban(ctx, *, arg):
 
 @bot.command()
 async def unban(ctx, *, arg):
-    healthguild = bot.get_guild(688206199992483851)
-    mod = healthguild.get_role(689280713153183795)
+    healthguild = bot.get_guild(config['SERVER_ID'])
+    mod = healthguild.get_role(config['MODE_ROLE_ID'])
     user,reason,member,memberID = aux.getvars(bot,ctx,arg,healthguild)
     if not(member):
         await ctx.channel.send("I cannot find this user. Please unban <@!" + str(memberID) + "> manually.")
@@ -152,8 +152,8 @@ async def unban(ctx, *, arg):
 
 @bot.command()
 async def kick(ctx, *, arg):
-    healthguild = bot.get_guild(688206199992483851)
-    mod = healthguild.get_role(689280713153183795)
+    healthguild = bot.get_guild(config['SERVER_ID'])
+    mod = healthguild.get_role(config['MODE_ROLE_ID'])
     user,reason,member,memberID = aux.getvars(bot,ctx,arg,healthguild)
     if not(member):
         await ctx.channel.send("<@!" + str(memberID) + "> is not a member of HEALTHcord.")
@@ -175,8 +175,8 @@ async def kick(ctx, *, arg):
 
 @bot.command()
 async def mute(ctx, *, arg):
-    healthguild = bot.get_guild(688206199992483851)
-    mod = healthguild.get_role(689280713153183795)
+    healthguild = bot.get_guild(config['SERVER_ID'])
+    mod = healthguild.get_role(config['MODE_ROLE_ID'])
     user,reason,member,memberID = aux.getvars(bot,ctx,arg,healthguild)
 
     if not(member):
@@ -198,7 +198,7 @@ async def mute(ctx, *, arg):
         embed,message = aux.modactions(ctx,user,reason,member,healthguild,mod,"muted for " + timestr)
     else:
         embed,message = aux.modactions(ctx,user,reason,member,healthguild,mod,"muted")
-    muted = healthguild.get_role(716467961631866922)
+    muted = healthguild.get_role(config['MUTED_ROLE_ID'])
     if embed == "notmod":
         return
     elif embed:
@@ -220,14 +220,14 @@ async def mute(ctx, *, arg):
 
 @bot.command()
 async def unmute(ctx, *, arg):
-    healthguild = bot.get_guild(688206199992483851)
-    mod = healthguild.get_role(689280713153183795)
+    healthguild = bot.get_guild(config['SERVER_ID'])
+    mod = healthguild.get_role(config['MODE_ROLE_ID'])
     user,reason,member,memberID = aux.getvars(bot,ctx,arg,healthguild)
     if not(member):
         await ctx.channel.send("<@!" + str(memberID) + "> is not a member of HEALTHcord.")
         return
     embed,message = aux.modactions(ctx,user,reason,member,healthguild,mod,"unmuted")
-    muted = healthguild.get_role(716467961631866922)
+    muted = healthguild.get_role(config['MUTED_ROLE_ID'])
     if embed == "notmod":
         return
     elif embed:
@@ -280,7 +280,7 @@ async def purge(ctx, *, arg):
 async def motd(ctx, *, arg):    # setting someone as the member of the day
     if not(aux.checkmod(bot,ctx)):
         return
-    healthguild = bot.get_guild(688206199992483851)
+    healthguild = bot.get_guild(config['SERVER_ID'])
     role = healthguild.get_role(753720334993326161)
     userID = ""
 
@@ -334,8 +334,8 @@ async def timeout(ctx, *, arg):
     seconds = arg
     suffix = seconds[:-1]
     secondsint = int(seconds[:-1])
-    healthguild = bot.get_guild(688206199992483851)
-    muted = healthguild.get_role(716467961631866922)
+    healthguild = bot.get_guild(config['SERVER_ID'])
+    muted = healthguild.get_role(config['MUTED_ROLE_ID'])
     timestr,secondsint = aux.timestrbuilder(seconds,secondsint,suffix)
     embed=discord.Embed(title=" ", color=0xff0000)
     embed.set_author(name="Enjoy your timeout. (" + timestr + ")")
@@ -553,7 +553,7 @@ async def on_member_remove(member):
     modlog = bot.get_channel(733746271684263936)
     memberstr = member.name + "#" + member.discriminator
     timeonserver = datetime.now() - member.joined_at
-    healthcord = bot.get_guild(688206199992483851)
+    healthcord = bot.get_guild(config['SERVER_ID'])
     logs = await healthcord.audit_logs(limit=1, action=discord.AuditLogAction.kick).flatten()
     logs = logs[0]
     if not(logs.reason):
