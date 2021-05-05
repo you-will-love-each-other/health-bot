@@ -41,9 +41,9 @@ async def help(ctx, *arg):
         helpstr += "\n\n**!purge** [no. of messages]\n**!purgeuser (unstable for now)** [mention user] [no. of messages]\n**!spam** [no. of messages]\n**!motd** [mention user]\n\n**!createtrigger (inactive)** [name] [content]\n**!deletetrigger (inactive)** [name]"
         embed=discord.Embed(title="Help",description=helpstr,color=0xff0000)
     elif arg == "kick":
-        embed=discord.Embed(title="!kick",description= "kicks member from HEALTHcord and stores information - including the reason for the kick - in the <#733746271684263936>. They might rejoin the server whenever they want.")
+        embed=discord.Embed(title="!kick",description= "kicks member from HEALTHcord and stores information - including the reason for the kick - in the <#%s>. They might rejoin the server whenever they want." % config['MOD_LOG_ID'])
     elif arg == "ban":
-        embed=discord.Embed(title="!ban",description= "bans member from HEALTHcord and stores information - including the reason for the ban - in the <#733746271684263936>.")
+        embed=discord.Embed(title="!ban",description= "bans member from HEALTHcord and stores information - including the reason for the ban - in the <#%s>." % config['MOD_LOG_ID'])
     else:
         await ctx.author.send(arg + " is not a valid command.")
         return
@@ -271,7 +271,7 @@ async def purge(ctx, *, arg):
     for x in users:
         deletedstr += "**" + x[0].name + "#" + x[0].discriminator + ":** " + str(x[1]) + "\n"
 
-    modlog = bot.get_channel(733746271684263936)
+    modlog = bot.get_channel(config['MOD_LOG_ID'))
     embed = discord.Embed(title=" ", description="Messages deleted:\n\n" + deletedstr, color=0xff0000)
     embed.set_author(name= str(len(deleted)) + " messages purged | #" + ctx.channel.name)
     await modlog.send(embed= embed)
@@ -281,7 +281,7 @@ async def motd(ctx, *, arg):    # setting someone as the member of the day
     if not(aux.checkmod(bot,ctx)):
         return
     healthguild = bot.get_guild(config['SERVER_ID'])
-    role = healthguild.get_role(753720334993326161)
+    role = healthguild.get_role(config['MOTD_ROLE_ID'])
     userID = ""
 
     for x in range(len(arg)):
@@ -349,9 +349,9 @@ async def timeout(ctx, *, arg):
 ## temporary commands (prob) ##
 @bot.command()
 async def riff(ctx):
-    embed=discord.Embed(title=" ", description="https://open.spotify.com/playlist/4rjHTKoc6UW6vZ3OtsRskC?si=OusEsIvdQPaHLnY2ae1bjw \n\nhttps://music.apple.com/us/playlist/tricils-riff-of-the-week/pl.u-GgAxqabhZxeVBG", color=0xff0000)
+    embed=discord.Embed(title=" ", description="%s \n\n%s" % (config['TRICILS_SPOTIFY_PLAYLIST'], TRICILS_APPLE_MUSIC_PLAYLIST), color=0xff0000)
     embed.set_author(name="TRICIL'S RIFF OF THE WEEK PLAYLISTS! UPDATED EVERY WEDNESDAY!")
-    embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/732593127352696942.png")
+    embed.set_thumbnail(url=config['MF_SKELEGUN'])
     await ctx.channel.send(embed=embed)
 
 
@@ -493,7 +493,7 @@ async def on_member_ban(healthcord,user):
         logs.reason = "No reason was specified."
     if "​​​" in logs.reason:
         return
-    modlog = bot.get_channel(733746271684263936)
+    modlog = bot.get_channel(config['MOD_LOG_ID'))
     embed=discord.Embed(title= "manual ban", description= "**Offender:** " + user.mention + "\n**Reason:** " + logs.reason + "\n**Responsible moderator: **" + logs.user.mention,color= 0xff0000)
     await modlog.send(embed= embed)
 
@@ -505,7 +505,7 @@ async def on_member_unban(healthcord,user):
         logs.reason = "No reason was specified."
     if "​​​" in logs.reason:
         return
-    modlog = bot.get_channel(733746271684263936)
+    modlog = bot.get_channel(config['MOD_LOG_ID'))
     embed = discord.Embed(title= "manual unban", description= "**Offender:** " + user.mention + "\n**Responsible moderator: **" + logs.user.mention, color= 0xff0000)
     await modlog.send(embed= embed)
 
@@ -515,7 +515,7 @@ invitemessage = {}
 @bot.event
 async def on_invite_create(invite):
     global invitemessage
-    modlog = bot.get_channel(733746271684263936)
+    modlog = bot.get_channel(config['MOD_LOG_ID'))
     user = invite.inviter
     userstr = user.name + "#" + user.discriminator
     if invite.max_uses:
@@ -550,7 +550,7 @@ async def on_reaction_add(reaction, user):
 
 @bot.event
 async def on_member_remove(member):
-    modlog = bot.get_channel(733746271684263936)
+    modlog = bot.get_channel(config['MOD_LOG_ID'))
     memberstr = member.name + "#" + member.discriminator
     timeonserver = datetime.now() - member.joined_at
     healthcord = bot.get_guild(config['SERVER_ID'])
@@ -648,7 +648,7 @@ async def on_member_remove(member):
     if member.avatar:
         avatarurl = "https://cdn.discordapp.com/avatars/" + str(member.id) + "/" + member.avatar + ".webp"
     else:
-        avatarurl = "https://cdn.discordapp.com/avatars/774402228084670515/5ef539d5f3e8d576c4854768727bc75a.png"
+        avatarurl = config['BOT_AVATAR']
 
     embed = discord.Embed(title = "Member left", description = member.mention + timestr + "\n**Roles:** " + rolestr, color=0xff0000)
     embed.set_author(name=memberstr, icon_url=avatarurl)

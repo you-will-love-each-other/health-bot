@@ -1,8 +1,12 @@
+from dotenv import dotenv_values
 import discord
 
+config = dotenv_values('.env')
+
+
 def checkmod(bot,ctx):
-    healthguild = bot.get_guild(688206199992483851)
-    mod = healthguild.get_role(689280713153183795)
+    healthguild = bot.get_guild(config['SERVER_ID'])
+    mod = healthguild.get_role(config['MOD_ROLE_ID'])
     return mod in ctx.author.roles
 
 def getvars(bot,ctx,arg,healthguild): # gets the user,reason and member for the mod functions
@@ -18,16 +22,16 @@ def getvars(bot,ctx,arg,healthguild): # gets the user,reason and member for the 
     userID = int(userID)
     user = bot.get_user(userID)
     member = healthguild.get_member(userID)
-    
+
     return user,reason,member,userID
 
 def modactions(ctx,user,reason,member,healthguild,mod,action): # writes the embed and dm for the mod functions
-    if mod in ctx.author.roles and member.id != 774402228084670515:
-        if ctx.author.top_role > member.top_role or ctx.author.id == 233290361877823498:
+    if mod in ctx.author.roles and member.id != config['BOTS_OWN_ID']:
+        if ctx.author.top_role > member.top_role or ctx.author.id == config['OWNER_ID']:
             if user.avatar:
                 avatarurl = "https://cdn.discordapp.com/avatars/" + str(user.id) + "/" + user.avatar + ".webp"
             else:
-                avatarurl = "https://cdn.discordapp.com/avatars/774402228084670515/5ef539d5f3e8d576c4854768727bc75a.png"
+                avatarurl = config['BOT_AVATAR']
             userstr = user.name + "#" + user.discriminator
             embed = False
             message = False
@@ -45,7 +49,7 @@ def modactions(ctx,user,reason,member,healthguild,mod,action): # writes the embe
         return "notmod",False
 
 def modlogembed(bot,action, reason, message, colour, user): # building the embed for the mod log channel
-    modlog = bot.get_channel(733746271684263936)
+    modlog = bot.get_channel(config['MOD_LOG_ID'])
     serverid = str(message.guild.id)
     channelid = str(message.channel.id)
     messageid = str(message.message.id)
