@@ -416,10 +416,17 @@ async def timeout(ctx, *, arg):
     await ctx.author.send("Your timeout in HEALTHcord has ended.")
 
 @bot.command()
-@commands.has_any_role("CLUB LEADER", "MODERATOR", "ADMIN")
+@commands.has_any_role("CLUB LEADER", "MODERATOR", "ADMIN", "WARBOSS")
 async def pin(ctx):
-    club_channels = [config['MOVIE_CLUB_ID'],config['BOOK_CLUB_ID'],config['ANIME_CLUB_ID'],config['MUSIC_CLUB_ID'],config['ART_CLUB_ID'],config['GAMING_CLUB_ID'],config['FOOD_CLUB_ID']]
+    club_channels = [config['MOVIE_CLUB_ID'],config['BOOK_CLUB_ID'],config['ANIME_CLUB_ID'],config['MUSIC_CLUB_ID'],config['ART_CLUB_ID'],config['GAMING_CLUB_ID'],config['FOOD_CLUB_ID'], config['HEALTH_BOYZ_ID']]
     if str(ctx.channel.id) in club_channels:
+        if not(ctx.message.reference):
+            await ctx.reply("Reply to the message you want to pin.")
+        else:
+            message_to_pin = await ctx.channel.fetch_message(ctx.message.reference.message_id)
+            await message_to_pin.pin(reason="Pinned by " + ctx.author.name)
+            await ctx.message.delete()
+    elif aux.checkmod(ctx):
         if not(ctx.message.reference):
             await ctx.reply("Reply to the message you want to pin.")
         else:
