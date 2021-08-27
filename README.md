@@ -1,20 +1,58 @@
 # HEALTH BOT
 Python discord bot for the server of the American music band HEALTH.
 
+---
+
+## Development
+
+### With Docker:
+
+<small>Requires [Docker](https://docs.docker.com/engine/install/)</small>
+
+- Run `docker build -t health-bot .` from the project root to build the image
+- Run commands with `docker run -t health-bot exec -t python` (or `pip`)
+  - example: `docker run -t health-bot exec -t pip install pytest`
+
+> Using Docker is recommended because it provides reliable dev and build environments, and good separation from the host environment.
+
+### With Lando:
+
+<small>Requires [Docker](https://docs.docker.com/engine/install/) and [Lando](https://lando.dev/download/)</small>
+
+- Run `lando start` from the project root to start the container. If it hasn't been built yet, Lando will build it.
+- `python` and `pip` can be run as `lando python` and `lando pip`
+  - example: `lando pip install pytest`
+
+> Lando is a tool built on top of Docker that provides a lot of extremely handy tooling. It's completely compatible with existing Dockerfiles and docker-compose configs.
+
+### With Python venv:
+
+<small>Requires [Python 3.7+](https://www.python.org/downloads/)</small>
+
+- *(First time only*) Run `python -m venv bot-env` from the project root
+- Run `source bot-env/bin/activate` to, well, activate the virtual environment
+- Commands like `python` and `pip` are available in this environment directly
+  - example: `pip install pytest`
+
+> This provides the least separation from the host environment and other software that might be installed.
+
+---
+## Usage
+
 **Note:** This code is written specifically for the [HEALTH discord server](http://discord.gg/health "HEALTH discord server") as it includes specific channel and role IDs. In the future I might make the code flexible for other servers, but, for now, if you decide to use this bot, you should be careful with those.
 
-## User-friendly features
+### User-friendly features
 
 
-- ### Commands
+- #### Commands
 **!timeout**<br>
 Allows a user to take a break for a given period of time by muting them from all the server channels.
 
-- ### Triggers
+- #### Triggers
 Name taken from carlbot, the bot formally used to moderate the server. They're, essentially, quick and simple commands that can be used by any user.
 Usually, these will be reaction images - or memes - stored in a database and can be added/removed by the moderators.
 
-- ### Message reactions
+- #### Message reactions
 There are two main type of reactions the bot can generate.
   1. Compliments or insults, to which the bot will react with a happy or sad emoji, respectively.
   2. Mentions of HEALTH songs or albums, to which the bot with react with the respective album cover.
@@ -23,7 +61,7 @@ Note: The code for this feature takes the content of the message, removes the sp
 
 ---
 
-## Moderator-friendly features
+### Moderator-friendly features
 - ### Commands
 **!ban ~~(and !unban)~~, !kick, !warn, !mute (and !unmute)**<br>
 These commands make it easier for moderators to take action right away when an incident might be occuring. They are very intuitive and work with both the mention of the user the action is directed to or their ID.
@@ -40,7 +78,7 @@ There's a tradition of giving a special role named "Member Of The Day" to users 
 **!spam**<br>
 This featured is mostly useless but it exists, so it'll, at least, be described here. It sends out the message "spam" a given number of times. It is easily abusable and there is no limit number of messages to be sent.
 
-- ### #mod-log and #big-brother-is-watching
+- #### #mod-log and #big-brother-is-watching
 The bot uses two channels to log events.
   1. ``#mod-log`` is used for most events.<br>
     - Firstly, this channel logs bans, unbans, kicks, warns, muting and unmuting, whether they were made with the help of the bot or manually; if these events were created with the bot, the logs will include a link that allow the mods to jump to the message that caused the event.<br>
