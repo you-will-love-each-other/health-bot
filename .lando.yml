@@ -1,0 +1,13 @@
+name: health-bot
+
+services:
+  bot:
+    type: python:3
+    overrides:
+      build: .
+
+tooling:
+  python:
+    service: bot
+  pip:
+    service: bot
