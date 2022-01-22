@@ -528,14 +528,14 @@ async def on_raw_reaction_add(payload):
                     if ticket_info == (user,"general-ticket"):
                         await ticket_message.channel.send(user.mention + " hello! You still have this opened ticket. A mod can assist you on whatever else you might need.")
                         return
-                init_message += "\nWhat's the issue?\nA <@&{0}> will help you shortly.\n\n``(React to this message with 🔒 to close this ticket.)``".format(config['MOD_ROLE_ID'])
+                init_message += f"\nWhat's the issue?\nA <@&{config['MOD_ROLE_ID']}> will help you shortly.\n\n``(React to this message with 🔒 to close this ticket.)``"
                 await create_ticket_channel(init_message,"general-ticket",user)
             elif await support_check(merch_support, reaction, user):
                 for ticket_message,ticket_info in open_tickets.items():
                     if ticket_info == (user,"merch-ticket"):
                         await ticket_message.channel.send(user.mention + " hello! You still have this opened ticket. A mod can assist you on whatever else you might need.")
                         return
-                init_message += "\nPlease DM {0} with your merch issue.\n\n".format(amanda.mention)
+                init_message += f"\nPlease DM {amanda.mention} with your merch issue.\n\n"
                 await create_ticket_channel(init_message,"merch-ticket",user)
             elif await support_check(roles_support, reaction, user):
                 for ticket_message,ticket_info in open_tickets.items():
@@ -660,7 +660,7 @@ async def on_member_join(member):
     else:
         avatarurl = "https://cdn.discordapp.com/avatars/774402228084670515/5ef539d5f3e8d576c4854768727bc75a.png"
     memberstr = member.name + "#" + member.discriminator
-    embed = discord.Embed(title=" ", description="User ID: {0}\n\n{1}".format(str(member.id),member.mention), color=0xff0000)
+    embed = discord.Embed(title=" ", description=f"User ID: {str(member.id)}\n\n{member.mention}", color=0xff0000)
     embed.set_author(name= memberstr + " has joined the server.", icon_url= avatarurl)
     await bot.get_channel(int(config['NEW_USERS_ID'])).send(embed= embed)
 

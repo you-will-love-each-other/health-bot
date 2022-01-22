@@ -1,6 +1,7 @@
 import discord
 import random
 import re
+import asyncio
 from dotenv import dotenv_values
 from urllib.parse import urlparse
 
@@ -185,7 +186,7 @@ async def eject_animation(member,avatar,channel):
 
     for frame in animation:
         await asyncio.sleep(2)
-        description = ".             .        .\n    .\n                 .\n{0}\n.          .\n                 .\n .                  .".format(frame)
+        description = f".             .        .\n    .\n                 .\n{frame}\n.          .\n                 .\n .                  ."
         embed=discord.Embed(title=" ", description=description, color=0xff0000)
         embed.set_author(name= member + " is being ejected.", icon_url= avatar)
         await message.edit(embed= embed)
