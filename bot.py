@@ -112,7 +112,7 @@ def main():
         now = datetime.now(timezone.utc)
         users_leaving = member.guild.get_channel(int(config['USERS_LEAVING_ID']))
         member_str = member.name + "#" + member.discriminator
-        time_on_server = (now - member.joined_at).seconds()
+        time_on_server = (now - member.joined_at).seconds
         (time_text, _) = useful.time_builder(time_on_server, "s")
         
         avatar_url = member.avatar.url if member.avatar else "https://cdn.discordapp.com/avatars/774402228084670515/5ef539d5f3e8d576c4854768727bc75a.png"
