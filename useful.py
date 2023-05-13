@@ -13,7 +13,7 @@ club_channels = [config['MOVIE_CLUB_ID'],config['BOOK_CLUB_ID'],config['ANIME_CL
 
 def check_mod(ctx, user=None):
     if user:
-        return user.guild.get_role(config['MOD_ROLE_ID']) in user.roles or user.get_role(config['ADMIN_ROLE_ID']) in user.roles
+        return user.guild.get_role(config['MOD_ROLE_ID']) in user.roles or user.guild.get_role(config['ADMIN_ROLE_ID']) in user.roles
     else:
         return ctx.guild.get_role(config['MOD_ROLE_ID']) in ctx.author.roles or ctx.guild.get_role(config['ADMIN_ROLE_ID']) in ctx.author.roles
 
