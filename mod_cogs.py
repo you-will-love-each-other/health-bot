@@ -18,6 +18,14 @@ class Modding(commands.Cog):
 
     @commands.command()
     @commands.has_any_role(*mod_team)
+    async def warnticket(self, ctx, *, arg):
+        members = list()
+        for user_id in re.findall(r"<?@?(\d{18})>?", arg):
+            if member := ctx.guild.get_member(int(user_id)):
+                useful.create_ticket_channel("[React to close the ticket]", (member.nick or member.name) + "-warn-ticket", member, dict(), set())
+
+    @commands.command()
+    @commands.has_any_role(*mod_team)
     async def kick(self, ctx, *, arg):
         members, _ = await useful.generic_modding_action(ctx, arg, "kick", "kicked", 0xffa500)
         for member in members:
