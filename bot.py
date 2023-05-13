@@ -137,7 +137,7 @@ def main():
         for role in new_roles:
             if role.name == "KILLER ELITE":
                 new_user_embed = discord.Embed(title="", description="", color=0xff0000)
-                new_user_embed.set_author(name= f"WELCOME {after.nick} TO THE KILLER ELITE")
+                new_user_embed.set_author(name= f"WELCOME {after.nick or after.name} TO THE KILLER ELITE")
                 patrons_channel = after.guild.get_channel(int(config['PATREON_CHANNEL_ID']))
                 await patrons_channel.send(after.mention, embed=new_user_embed)
                 break
