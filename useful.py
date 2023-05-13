@@ -170,4 +170,4 @@ async def create_ticket_channel(init_message,name,user, open_tickets, open_ticke
     open_tickets[message] = (user,name)
     open_tickets_id.add(message.id)
 
-    return open_tickets, open_tickets_id
+    return open_tickets, open_tickets_id, channel

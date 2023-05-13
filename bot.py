@@ -174,14 +174,14 @@ def main():
                         await ticket_message.channel.send(user.mention + " hello! You still have this opened ticket. A mod can assist you on whatever else you might need.")
                         return
                 init_message += "\nWhat's the issue?\nA <@&{0}> will help you shortly.\n\n``(React to this message with 🔒 to close this ticket.)``".format(config['MOD_ROLE_ID'])
-                open_tickets, open_tickets_id = await useful.create_ticket_channel(init_message, "general-ticket", user, open_tickets, open_tickets_id)
+                open_tickets, open_tickets_id, _ = await useful.create_ticket_channel(init_message, "general-ticket", user, open_tickets, open_tickets_id)
             elif await useful.support_check(merch_support, reaction, user):
                 for ticket_message,ticket_info in open_tickets.items():
                     if ticket_info == (user,"merch-ticket"):
                         await ticket_message.channel.send(user.mention + " hello! You still have this opened ticket. A mod can assist you on whatever else you might need.")
                         return
                 init_message += "\nIf you ordered from HEALTH's US-based merch site (<https://fashion.youwillloveeachother.com>), please DM {0} with your merch issue.\n\nIf you ordered from Loma Vista or Deathwish EU, please contact them via the below links:\n\nLoma Vista: <https://bodega.lomavistarecordings.com/pages/contact-us>\nDeathwish EU: <https://deathwishinc.eu/pages/contact>\n".format(amanda.mention)
-                open_tickets, open_tickets_id = await useful.create_ticket_channel(init_message, "merch-ticket", user, open_tickets, open_tickets_id)
+                open_tickets, open_tickets_id, _ = await useful.create_ticket_channel(init_message, "merch-ticket", user, open_tickets, open_tickets_id)
 
             if message in open_tickets:
                 if reaction.emoji == "🔒":
