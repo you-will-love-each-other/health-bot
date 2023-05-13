@@ -155,8 +155,7 @@ def main():
         global closed_tickets
         global closed_tickets_id
 
-        print(payload.emoji)
-        if payload.emoji in ["🔒", "🔒"]:
+        if str(payload.emoji) in ["🔒", "🔒"]:
             new_open_tickets, new_open_tickets_id = get_opened_tickets()
             print(new_open_tickets,"\n\n", open_tickets, "\n\n")
             open_tickets.update(new_open_tickets)
