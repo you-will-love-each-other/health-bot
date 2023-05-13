@@ -153,7 +153,7 @@ async def support_check(ids, reaction, user):
         await reaction.remove(user)
         return reaction.emoji == "📩"
 
-async def create_ticket_channel(init_message,name,user, open_tickets, open_tickets_id):
+async def create_ticket_channel(init_message, name, user, open_tickets, open_tickets_id):
     merch_support_role = user.guild.get_role(int(config['MERCH_SUPPORT_ID']))
     mod_role = user.guild.get_role(int(config['MOD_ROLE_ID']))
     if name == "merch-ticket":
@@ -164,9 +164,10 @@ async def create_ticket_channel(init_message,name,user, open_tickets, open_ticke
 
     open_ticket_cat = user.guild.get_channel(int(config['OPEN_TICKET_CAT_ID']))
     channel = await user.guild.create_text_channel(name + "-" + user.name, category= open_ticket_cat, overwrites= overwrites)
-    message = await channel.send(init_message)
-    if name != "merch-ticket":
-        await message.add_reaction("🔒")
+    if init_message:
+        message = await channel.send(init_message)
+        if name != "merch-ticket":
+            await message.add_reaction("🔒")
     open_tickets[message] = (user,name)
     open_tickets_id.add(message.id)
 
