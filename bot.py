@@ -156,6 +156,10 @@ def main():
         global closed_tickets_id
 
         if payload.channel_id in [mod_support[1],merch_support[1]] or payload.message_id in open_tickets_id or payload.message_id in closed_tickets_id:
+            new_open_tickets, new_open_tickets_id = get_opened_tickets()
+            open_tickets.update(new_open_tickets)
+            open_tickets_id = open_tickets_id.union(new_open_tickets_id)
+
             # converting payload to usable variables
             healthcord = bot.get_guild(payload.guild_id)
             user = healthcord.get_member(payload.user_id)

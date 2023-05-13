@@ -6,6 +6,13 @@ from discord.ext import commands
 import useful
 from useful import config, mod_team
 
+open_tickets = {}
+open_tickets_id = set()
+
+def get_opened_tickets():
+    global open_tickets, open_tickets_id
+    return open_tickets, open_tickets_id
+
 class Modding(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -19,10 +26,10 @@ class Modding(commands.Cog):
     @commands.command()
     @commands.has_any_role(*mod_team)
     async def warnticket(self, ctx, *, arg):
-        members = list()
+        global open_tickets, open_tickets_id
         for user_id in re.findall(r"<?@?(\d{18})>?", arg):
             if member := ctx.guild.get_member(int(user_id)):
-                _, _, ticket_channel = await useful.create_ticket_channel("[React to close the ticket]", (member.nick or member.name) + "-warn-ticket", member, dict(), set())
+                open_tickets, open_tickets_id, ticket_channel = await useful.create_ticket_channel("[React to close the ticket]", "warn-ticket-", member, dict(), set())
                 ticket_channel_embed = discord.Embed(title= f"Warning ticket for {member.nick or member.name} created!", description= ticket_channel.mention)
                 await ctx.send(embed= ticket_channel_embed)
 
