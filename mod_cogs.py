@@ -29,7 +29,7 @@ class Modding(commands.Cog):
         global open_tickets, open_tickets_id
         for user_id in re.findall(r"<?@?(\d{18})>?", arg):
             if member := ctx.guild.get_member(int(user_id)):
-                open_tickets, open_tickets_id, ticket_channel = await useful.create_ticket_channel("[React to close the ticket]", "warn-ticket-", member, dict(), set())
+                open_tickets, open_tickets_id, ticket_channel = await useful.create_ticket_channel("[React to close the ticket]", "warn-ticket", member, dict(), set())
                 ticket_channel_embed = discord.Embed(title= f"Warning ticket for {member.nick or member.name} created!", description= ticket_channel.mention)
                 await ctx.send(embed= ticket_channel_embed)
 

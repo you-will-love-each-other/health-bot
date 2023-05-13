@@ -157,9 +157,7 @@ def main():
 
         if str(payload.emoji) in ["🔒", "🔒"]:
             new_open_tickets, new_open_tickets_id = get_opened_tickets()
-            print(new_open_tickets,"\n\n", open_tickets, "\n\n")
             open_tickets.update(new_open_tickets)
-            print(open_tickets)
             open_tickets_id = open_tickets_id.union(new_open_tickets_id)
 
         if payload.channel_id in [mod_support[1],merch_support[1]] or payload.message_id in open_tickets_id or payload.message_id in closed_tickets_id:
@@ -192,6 +190,8 @@ def main():
 
             if message in open_tickets:
                 if reaction.emoji == "🔒":
+                    if not(useful.check_mod(None, user= user)):
+                        return
                     await reaction.remove(user)
                     closed_ticket_cat = user.guild.get_channel(int(config['CLOSED_TICKET_CAT_ID']))
                     await reaction.message.channel.move(category= closed_ticket_cat, end= True)
