@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 import discord
 from discord.ext import commands
 from useful import config
-from mod_cogs import *
+from mod_cogs import Modding, ModMisc, get_opened_tickets
 from user_cogs import *
 #from event_cogs import *
 from user_cogs import *
@@ -157,7 +157,9 @@ def main():
 
         if payload.emoji in ["🔒", "🔒"]:
             new_open_tickets, new_open_tickets_id = get_opened_tickets()
+            print(new_open_tickets,"\n\n", open_tickets, "\n\n")
             open_tickets.update(new_open_tickets)
+            print(open_tickets)
             open_tickets_id = open_tickets_id.union(new_open_tickets_id)
 
         if payload.channel_id in [mod_support[1],merch_support[1]] or payload.message_id in open_tickets_id or payload.message_id in closed_tickets_id:
