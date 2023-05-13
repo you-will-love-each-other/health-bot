@@ -11,11 +11,8 @@ mod_team = ["ADMIN", "THE VIBEGUARD"]
 club_channels = [config['MOVIE_CLUB_ID'],config['BOOK_CLUB_ID'],config['ANIME_CLUB_ID'],config['MUSIC_CLUB_ID'],config['ART_CLUB_ID'],config['GAMING_CLUB_ID'],config['FOOD_CLUB_ID'], config['HEALTH_BOYZ_ID']]
 
 
-def check_mod(ctx, user=None):
-    if user:
-        return user.guild.get_role(config['MOD_ROLE_ID']) in user.roles or user.guild.get_role(config['ADMIN_ROLE_ID']) in user.roles
-    else:
-        return ctx.guild.get_role(config['MOD_ROLE_ID']) in ctx.author.roles or ctx.guild.get_role(config['ADMIN_ROLE_ID']) in ctx.author.roles
+def check_mod(ctx):
+    return ctx.guild.get_role(config['MOD_ROLE_ID']) in ctx.author.roles or ctx.guild.get_role(config['ADMIN_ROLE_ID']) in ctx.author.roles
 
 
 def get_modding_info(ctx, arg):

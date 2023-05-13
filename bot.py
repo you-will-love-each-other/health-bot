@@ -190,8 +190,6 @@ def main():
 
             if message in open_tickets:
                 if reaction.emoji == "🔒":
-                    if not(useful.check_mod(None, user= user)):
-                        return
                     await reaction.remove(user)
                     closed_ticket_cat = user.guild.get_channel(int(config['CLOSED_TICKET_CAT_ID']))
                     await reaction.message.channel.move(category= closed_ticket_cat, end= True)
