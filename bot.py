@@ -28,6 +28,12 @@ def main():
     async def ping(ctx):
         await ctx.message.reply("Pong!")
 
+    async def on_command_error(ctx, error):
+        if not(str(error).endswith("is not found")):
+            print(error)
+    
+    bot.on_command_error = on_command_error
+
     asyncio.run(bot.add_cog(Modding(bot)))
     asyncio.run(bot.add_cog(ModMisc(bot)))
     asyncio.run(bot.add_cog(UserCog(bot)))
