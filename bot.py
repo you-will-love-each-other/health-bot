@@ -134,7 +134,7 @@ def main():
         if before.name == "general" and before.name != after.name:
             entry = [entry async for entry in after.guild.audit_logs(limit=1)][0]
             await after.edit(name= "general")
-            await after.get_channel(1073294412660101202).send(entry.user.mention + " is poopy and tried to change the channel name for " + after.mention)
+            await after.guild.get_channel(1073294412660101202).send(entry.user.mention + " is poopy and tried to change the channel name for " + after.mention)
 
     @bot.event
     async def on_guild_channel_delete(channel):
