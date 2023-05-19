@@ -129,12 +129,16 @@ def main():
         embed.set_author(name= member_str, icon_url= avatar_url)
         await users_leaving.send(embed= embed)
 
-    @bot.event
+    '''@bot.event
     async def on_guild_channel_update(before, after):
         if before.name == "general" and before.name != after.name:
             entry = [entry async for entry in after.guild.audit_logs(limit=1)][0]
             await after.edit(name= "general")
             await after.guild.get_channel(1073294412660101202).send(entry.user.mention + " is poopy and tried to change the channel name for " + after.mention)
+
+        if before.position != after.position:
+            entry = [entry async for entry in after.guild.audit_logs(limit=1)][0]
+            await entry.user.kick()'''
 
     @bot.event
     async def on_guild_channel_delete(channel):
